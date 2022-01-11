@@ -116,4 +116,38 @@ public class TodoController {
         //ResponseDTO를 클라이언트에게 리턴한다.
         return ResponseEntity.ok().body(response);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteTodoList(@RequestBody TodoDTO dto){
+        try {
+            //클라이언트에서 삭제에 관한 요청이 오면,
+            String temp = "temp-user";
+
+            //dto 를 Entity로 변환
+            TodoEntity entity = TodoDTO.toEntity(dto);
+
+            //임시 사용자 아이디를 entity에 넣어줌.
+            entity.setUserId(temp);
+
+            //해당 entity를 삭제 후에 retrieve로 조회된 데이터를 받은것을 리스트 entities에 넣어준다.
+            List<TodoEntity> entities = todoService.delete(entity);
+
+            //이걸 다시 DTO로 변환
+            List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
+
+            //ResponseDTO 초기화
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
+
+            //클라이언트에게 삭제 후 조회된 리스트를 리턴.
+            return ResponseEntity.ok().body(response);
+
+
+        }catch(Exception e){
+            //예외가 있는 경우 에러메시지를 리턴한다.
+            String error = e.getMessage();
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
+
+    }
 }

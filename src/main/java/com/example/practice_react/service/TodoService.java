@@ -75,6 +75,26 @@ public class TodoService {
 
     }
 
+    //Delete
+    public List<TodoEntity>  delete(final TodoEntity entity){
+
+        //일단 삭제할때 해당 entity가 존재하는지를 확인
+        validate(entity);
+
+        //존재하면  Entity 삭제
+        try {
+            repository.delete(entity);
+        }catch(Exception e){
+            //익셉션 발생시 예외와 id를 로깅한다
+            log.error("error deleting entity ", entity.getId(), e);
+
+            //컨트롤러로 Exception을 보낸다
+            throw new RuntimeException("Error Deleting Entity "+entity.getId());
+        }
+
+        return retrieve(entity.getUserId());
+    }
+
 
 
     //entity 객체에 대한 유효성 검사. validate

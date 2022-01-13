@@ -1,6 +1,8 @@
 import React from 'react';
 import Todo from './Todo';
+import AddTodo from './AddTodo';
 import './App.css';
+import {Paper, List, Container} from "@material-ui/core";
 
 class App extends React.Component{
     constructor(props) {
@@ -15,16 +17,29 @@ class App extends React.Component{
     }
 
     render() {
-    /*return (
-        <div className={"App"}>
-            <Todo item={this.state.item}/>
-           </div>
-    );*/
-        var todoItems = this.state.items.map((item, idx) => (
-            <Todo item={item} key={item.id}/>
-        ));
-        return <div className={"App"}>{todoItems}</div>;
-  }
+
+        var todoItems = this.state.items.length > 0 && (
+            <Paper style={{margin: 16 } } >
+                <List>
+                    {this.state.items.map((item, idx)=>(
+                        <Todo item={item} key={item.id}/>
+                    ))}
+                </List>
+
+            </Paper>
+        );
+
+
+        return (
+            <div className={"App"}>
+                <Container maxWidth={"md"}>
+                    <AddTodo />
+                    <div className={"TodoList"}>{todoItems}</div>
+                </Container>
+            </div>
+
+    );
+    }
 
 }
 

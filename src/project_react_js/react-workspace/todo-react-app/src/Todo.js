@@ -8,8 +8,8 @@ class Todo extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            item: props.item,
-            number : 0,
+            item: props.item
+
         };
         //this.handleClick = this.handleClick().bind(this);
     }
@@ -17,18 +17,25 @@ class Todo extends React.Component{
 
 
     render(){
+        const item = this.state.item;
         return (        //{ }로 감싼것은 자바스크립트로 된 변수를 JSX에서 사용하기 위함.
-            <div className={"Todo"}>
-                <input type={"checkbox"}
-                       id={this.state.item.id}
-                       name={this.state.item.id}
-                       checked={this.state.item.done}
-                       />
-                <label id ={this.state.item.id}>{this.state.item.title}</label>
+            <ListItem>
+                <Checkbox checked={item.done}/>
+                <ListItemText>
 
-            </div>
+                        <InputBase
+                            inputProps={{"aria-label": "Always visible"}}
+                            type={"text"}
+                            id={item.id}
+                            name={item.id}
+                            value={item.title}
+                            multiline={true}
+                            fullWidth={true}
+                            />
+                    </ListItemText>
 
-        );
+                </ListItem>
+            );
     }
 }
 

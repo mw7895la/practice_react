@@ -5,6 +5,7 @@ class AddTodo extends React.Component{
     constructor(props) {
         super(props);
         this.state={item: {title:""}};      //사용자의 입력을 저장할 오브젝트
+        this.add=props.add;
     }
 
     //추가할 Item을 입력하는 onInputChange 함수 작성
@@ -16,8 +17,20 @@ class AddTodo extends React.Component{
         console.log(thisItem);
     }
 
+    //App.js에서 add()함수를 props로 넘겨받아 onButtonClick에 사용.
+    onButtonClick=() => {
+        this.add(this.state.item);  //add 함수 사용
+        this.setState({item: {title:""}});
+    }
 
-
+    //렌더링의 onKeyPress의 경우 키보드키를 누르자 마자 여기가 수행되는데 엔터일 경우만 +버튼 클릭과 같은 효과.
+    enterKeyEventHandler =(e) =>{
+        if(e.key==='Enter'){
+            this.onButtonClick();
+        }else{
+        console.log("Do You Prees Enter Key ?");
+    }
+}
 
     render(){
         return(
@@ -28,10 +41,14 @@ class AddTodo extends React.Component{
                                    fullWidth
                                    onChange={this.onInputChange}  //onChange는 이벤트가 발생할 때 마다 실행된다 즉,입력할때마다.
                                    value={this.state.item.title}
+                                   onKeyPress={this.enterKeyEventHandler}
                         />
                     </Grid>
                     <Grid xs={2} md={2} item>
-                        <Button fullWidth color={"primary"} variant={"outlined"}>
+                        <Button fullWidth color={"primary"}
+                                variant={"outlined"}
+                                onClick={this.onButtonClick}
+                        >
                             (+)
                         </Button>
                     </Grid>

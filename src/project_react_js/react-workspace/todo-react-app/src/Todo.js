@@ -1,5 +1,6 @@
 import React from 'react';
-import {ListItem, ListItemText, InputBase, Checkbox} from "@material-ui/core";
+import {ListItem, ListItemText, InputBase, Checkbox,ListItemSecondaryAction,IconButton} from "@material-ui/core";
+import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
 
 
 class Todo extends React.Component{
@@ -20,7 +21,7 @@ class Todo extends React.Component{
         const item = this.state.item;
         return (        //{ }로 감싼것은 자바스크립트로 된 변수를 JSX에서 사용하기 위함.
             <ListItem>
-                <Checkbox checked={item.done}/>
+                <Checkbox checked={item.done} disableRipple/>
                 <ListItemText>
 
                         <InputBase
@@ -32,10 +33,15 @@ class Todo extends React.Component{
                             multiline={true}
                             fullWidth={true}
                             />
-                    </ListItemText>
+                </ListItemText>
 
+                <ListItemSecondaryAction>
+                    <IconButton aria-label={"삭제할 Todo"}>
+                        <DeleteOutlined />
+                    </IconButton>
+                </ListItemSecondaryAction>
                 </ListItem>
-            );
+            );//aria-label은 단지 설명을 위한 텍스트일뿐 !!
     }
 }
 
